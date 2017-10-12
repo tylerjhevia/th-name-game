@@ -1,11 +1,28 @@
 import * as React from "react";
 import { PersonContainer } from "./PersonContainer";
 
-export interface AppProps {}
+export interface AppState {
+  people: any;
+}
 
-// 'HelloProps' describes the shape of props.
-// State is never set so we use the '{}' type.
-export default class App extends React.Component<AppProps, {}> {
+export default class App extends React.Component<{}, AppState> {
+  constructor() {
+    super();
+    this.state = {
+      people: []
+    };
+  }
+
+  componentDidMount() {
+    return this.fetchPeople();
+  }
+
+  fetchPeople() {
+    fetch("https://willowtreeapps.com/api/v1.0/profiles/")
+      .then(res => res.json())
+      .then(res => console.log(res))
+      .catch(error => console.log(error));
+  }
   render() {
     return <PersonContainer />;
   }
