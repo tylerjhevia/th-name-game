@@ -78,8 +78,8 @@ module.exports = React;
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var ReactDOM = __webpack_require__(2);
-var Hello_1 = __webpack_require__(3);
-ReactDOM.render(React.createElement(Hello_1.Hello, { compiler: "TypeScript", framework: "React" }), document.getElementById("example"));
+var App_1 = __webpack_require__(3);
+ReactDOM.render(React.createElement(App_1.default, null), document.getElementById("main"));
 
 
 /***/ }),
@@ -106,24 +106,51 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
+var PersonContainer_1 = __webpack_require__(4);
 // 'HelloProps' describes the shape of props.
 // State is never set so we use the '{}' type.
-var Hello = /** @class */ (function (_super) {
-    __extends(Hello, _super);
-    function Hello() {
+var App = /** @class */ (function (_super) {
+    __extends(App, _super);
+    function App() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    Hello.prototype.render = function () {
-        return (React.createElement("h1", null,
-            "Hello from ",
-            this.props.compiler,
-            " and ",
-            this.props.framework,
-            "!"));
+    App.prototype.render = function () {
+        return React.createElement(PersonContainer_1.PersonContainer, null);
     };
-    return Hello;
+    return App;
 }(React.Component));
-exports.Hello = Hello;
+exports.default = App;
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var Person_1 = __webpack_require__(5);
+exports.PersonContainer = function (props) {
+    var names = ["Han", "Chewie", "Leia", "Luke", "Lando"];
+    return (React.createElement("div", { className: "person-container" }, names.map(function (name) { return React.createElement(Person_1.Person, { name: name }); })));
+};
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+exports.Person = function (props) {
+    var name = props.name;
+    return (React.createElement("div", { className: "person" },
+        React.createElement("div", { className: "person-pic" }, "Here is my pic"),
+        React.createElement("p", { className: "person-name" }, name)));
+};
 
 
 /***/ })
