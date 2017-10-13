@@ -107,15 +107,27 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var PersonContainer_1 = __webpack_require__(4);
-// 'HelloProps' describes the shape of props.
-// State is never set so we use the '{}' type.
 var App = /** @class */ (function (_super) {
     __extends(App, _super);
     function App() {
-        return _super !== null && _super.apply(this, arguments) || this;
+        var _this = _super.call(this) || this;
+        _this.state = {
+            people: []
+        };
+        return _this;
     }
+    App.prototype.componentDidMount = function () {
+        this.fetchPeople();
+    };
+    App.prototype.fetchPeople = function () {
+        var _this = this;
+        fetch("https://willowtreeapps.com/api/v1.0/profiles/")
+            .then(function (peopleData) { return peopleData.json(); })
+            .then(function (peopleData) { return _this.setState({ people: peopleData }); })
+            .catch(function (error) { return console.log(error); });
+    };
     App.prototype.render = function () {
-        return React.createElement(PersonContainer_1.PersonContainer, null);
+        return React.createElement(PersonContainer_1.PersonContainer, { people: this.state.people });
     };
     return App;
 }(React.Component));
@@ -132,8 +144,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var Person_1 = __webpack_require__(5);
 exports.PersonContainer = function (props) {
-    var names = ["Han", "Chewie", "Leia", "Luke", "Lando"];
-    return (React.createElement("div", { className: "person-container" }, names.map(function (name) { return React.createElement(Person_1.Person, { name: name }); })));
+    console.log(props);
+    var people = props.people;
+    return (React.createElement("div", { className: "person-container" }, people.map(function (person) { return React.createElement(Person_1.Person, { name: person.firstName, key: person.id }); })));
 };
 
 
