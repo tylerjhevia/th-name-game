@@ -1,13 +1,37 @@
 import * as React from "react";
 import { Person } from "./Person";
 
-export interface PersonContainerProps {}
+export interface PersonContainerProps {
+  people: Array<Person>;
+}
+
+export interface Person {
+  id: string;
+  type: string;
+  slug: string;
+  jobTitle: string;
+  firstName: string;
+  lastName: string;
+  headshot: Headshot;
+  socialLinks: Array<any>;
+}
+
+export interface Headshot {
+  type: string;
+  mimeType: string;
+  id: string;
+  url: string;
+  alt: string;
+  height: number;
+  width: number;
+}
 
 export const PersonContainer = (props: PersonContainerProps) => {
-  const names = ["Han", "Chewie", "Leia", "Luke", "Lando"];
+  console.log(props);
+  const { people } = props;
   return (
     <div className="person-container">
-      {names.map(name => <Person name={name} key={name} />)}
+      {people.map(person => <Person name={person.firstName} key={person.id} />)}
     </div>
   );
 };

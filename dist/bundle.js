@@ -117,16 +117,17 @@ var App = /** @class */ (function (_super) {
         return _this;
     }
     App.prototype.componentDidMount = function () {
-        return this.fetchPeople();
+        this.fetchPeople();
     };
     App.prototype.fetchPeople = function () {
+        var _this = this;
         fetch("https://willowtreeapps.com/api/v1.0/profiles/")
-            .then(function (res) { return res.json(); })
-            .then(function (res) { return console.log(res); })
+            .then(function (peopleData) { return peopleData.json(); })
+            .then(function (peopleData) { return _this.setState({ people: peopleData }); })
             .catch(function (error) { return console.log(error); });
     };
     App.prototype.render = function () {
-        return React.createElement(PersonContainer_1.PersonContainer, null);
+        return React.createElement(PersonContainer_1.PersonContainer, { people: this.state.people });
     };
     return App;
 }(React.Component));
@@ -143,8 +144,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var Person_1 = __webpack_require__(5);
 exports.PersonContainer = function (props) {
-    var names = ["Han", "Chewie", "Leia", "Luke", "Lando"];
-    return (React.createElement("div", { className: "person-container" }, names.map(function (name) { return React.createElement(Person_1.Person, { name: name, key: name }); })));
+    console.log(props);
+    var people = props.people;
+    return (React.createElement("div", { className: "person-container" }, people.map(function (person) { return React.createElement(Person_1.Person, { name: person.firstName, key: person.id }); })));
 };
 
 

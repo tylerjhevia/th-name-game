@@ -14,16 +14,16 @@ export default class App extends React.Component<{}, AppState> {
   }
 
   componentDidMount() {
-    return this.fetchPeople();
+    this.fetchPeople();
   }
 
   fetchPeople() {
     fetch("https://willowtreeapps.com/api/v1.0/profiles/")
-      .then(res => res.json())
-      .then(res => console.log(res))
+      .then(peopleData => peopleData.json())
+      .then(peopleData => this.setState({ people: peopleData }))
       .catch(error => console.log(error));
   }
   render() {
-    return <PersonContainer />;
+    return <PersonContainer people={this.state.people} />;
   }
 }
