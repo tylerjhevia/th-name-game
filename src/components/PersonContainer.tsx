@@ -31,7 +31,13 @@ export const PersonContainer = (props: PersonContainerProps) => {
   const { people } = props;
   return (
     <div className="person-container">
-      {people.map(person => <Person name={person.firstName} key={person.id} />)}
+      {people.map(person =>
+        <Person
+          name={person.firstName}
+          key={person.id}
+          headshot={person.headshot.url}
+        />
+      )}
     </div>
   );
 };
