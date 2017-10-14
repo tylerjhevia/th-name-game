@@ -24,6 +24,6 @@ export default class App extends React.Component<{}, AppState> {
       .catch(error => console.log(error));
   }
   render() {
-    return <PersonContainer people={this.state.people} />;
+    return <PersonContainer people={this.state.people.slice(0, 10)} />;
   }
 }
