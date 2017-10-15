@@ -14,11 +14,10 @@ export const Person = (props: PersonProps) => {
     : (headshot = "no headshot");
   return (
     <div className="person">
-      <div className="person-pic">Here is my pic</div>
+      <img className="headshot" src={`http://${headshot}`} alt={headshot} />
       <p className="person-name">
         {name}
       </p>
-      <img className="headshot" src={`http://${headshot}`} alt={headshot} />
     </div>
   );
 };

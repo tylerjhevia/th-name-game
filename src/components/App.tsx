@@ -3,14 +3,16 @@ import { PersonContainer } from "./PersonContainer";
 import { Person } from "./PersonContainer";
 
 export interface AppState {
-  people: any;
+  people: Array<Person>;
+  currentPerson: String;
 }
 
 export default class App extends React.Component<{}, AppState> {
   constructor() {
     super();
     this.state = {
-      people: []
+      people: [],
+      currentPerson: null
     };
   }
 
@@ -26,16 +28,35 @@ export default class App extends React.Component<{}, AppState> {
       .catch(error => console.log(error));
   }
 
-  getRandomHeadshots(people: Array<Person>) {
-    let randomPeople = [];
-    while (randomPeople.length < 5) {
-      let randomNumber = Math.round(Math.random() * people.length);
-      randomPeople.push(people[Math.round(Math.random() * people.length)]);
+  getRandomHeadshots(people: Array<Person>): Array<Person> {
+    people = people.filter(person => person.headshot.url !== undefined);
+    let randomPeople: Array<Person> = [];
+
+    for (let i = 0; randomPeople.length < 5; i++) {
+      let randomPerson = this.selectRandomPerson(people);
+      if (randomPeople.filter(person => person.slug !== randomPerson.slug)) {
+        randomPeople.push(randomPerson);
+      }
     }
+    console.log("randomPeople", randomPeople);
+    this.setState({
+      currentPerson: this.selectRandomPerson(randomPeople).firstName
+    });
     return randomPeople;
   }
 
+  selectRandomPerson(people: Array<Person>): Person {
+    return people[Math.round(Math.random() * people.length)];
+  }
+
   render() {
-    return <PersonContainer people={this.state.people} />;
+    return (
+      <div className="main">
+        <PersonContainer people={this.state.people} />
+        <h2 className="current-name">
+          {this.state.currentPerson}
+        </h2>
+      </div>
+    );
   }
 }
