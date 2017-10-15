@@ -1,0 +1,19 @@
+body {
+  background-color: #e2dcde;
+}
+
+.headshot {
+  height: 200px;
+  width: 200px;
+}
+
+.person-container {
+  border: 3px solid black;
+  display: flex;
+  justify-content: space-between;
+}
+
+.person {
+  margin: 5px;
+  text-align: center;
+}
