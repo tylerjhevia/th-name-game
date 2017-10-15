@@ -27,7 +27,7 @@ export default class App extends React.Component<{}, AppState> {
       .then(peopleData => peopleData.json())
       .then(peopleData => this.getRandomHeadshots(peopleData))
       .then(randomPeople => this.setState({ people: randomPeople }))
-      .catch(error => console.log(error));
+      .catch(error => error);
   }
 
   getRandomHeadshots(people: Array<PersonInfo>): Array<PersonInfo> {
