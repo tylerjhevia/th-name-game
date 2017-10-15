@@ -27,7 +27,6 @@ export interface Headshot {
 }
 
 export const PersonContainer = (props: PersonContainerProps) => {
-  console.log(props);
   const { people } = props;
   return (
     <div className="person-container">
