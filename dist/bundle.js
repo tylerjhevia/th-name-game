@@ -112,7 +112,8 @@ var App = /** @class */ (function (_super) {
     function App() {
         var _this = _super.call(this) || this;
         _this.state = {
-            people: []
+            people: [],
+            currentPerson: null
         };
         return _this;
     }
@@ -140,6 +141,10 @@ var App = /** @class */ (function (_super) {
         for (var i = 0; randomPeople.length < 5; i++) {
             _loop_1(i);
         }
+        console.log("randomPeople", randomPeople);
+        this.setState({
+            currentPerson: this.selectRandomPerson(randomPeople).firstName
+        });
         return randomPeople;
     };
     App.prototype.selectRandomPerson = function (people) {
@@ -147,7 +152,8 @@ var App = /** @class */ (function (_super) {
     };
     App.prototype.render = function () {
         return (React.createElement("div", { className: "main" },
-            React.createElement(PersonContainer_1.PersonContainer, { people: this.state.people })));
+            React.createElement(PersonContainer_1.PersonContainer, { people: this.state.people }),
+            React.createElement("h2", { className: "current-name" }, this.state.currentPerson)));
     };
     return App;
 }(React.Component));
@@ -183,8 +189,6 @@ var styles = __webpack_require__(6);
 exports.Person = function (props) {
     var name = props.name;
     var headshot;
-    console.log("name", name);
-    console.log("headshot", props.headshot);
     props.headshot
         ? (headshot = props.headshot.slice(2, props.headshot.length))
         : (headshot = "no headshot");

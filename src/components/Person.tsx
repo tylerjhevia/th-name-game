@@ -9,8 +9,6 @@ export interface PersonProps {
 export const Person = (props: PersonProps) => {
   let { name } = props;
   let headshot;
-  console.log("name", name);
-  console.log("headshot", props.headshot);
   props.headshot
     ? (headshot = props.headshot.slice(2, props.headshot.length))
     : (headshot = "no headshot");

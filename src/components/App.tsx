@@ -4,13 +4,15 @@ import { Person } from "./PersonContainer";
 
 export interface AppState {
   people: Array<Person>;
+  currentPerson: String;
 }
 
 export default class App extends React.Component<{}, AppState> {
   constructor() {
     super();
     this.state = {
-      people: []
+      people: [],
+      currentPerson: null
     };
   }
 
@@ -26,7 +28,7 @@ export default class App extends React.Component<{}, AppState> {
       .catch(error => console.log(error));
   }
 
-  getRandomHeadshots(people: Array<Person>) {
+  getRandomHeadshots(people: Array<Person>): Array<Person> {
     people = people.filter(person => person.headshot.url !== undefined);
     let randomPeople: Array<Person> = [];
 
@@ -36,10 +38,14 @@ export default class App extends React.Component<{}, AppState> {
         randomPeople.push(randomPerson);
       }
     }
+    console.log("randomPeople", randomPeople);
+    this.setState({
+      currentPerson: this.selectRandomPerson(randomPeople).firstName
+    });
     return randomPeople;
   }
 
-  selectRandomPerson(people: Array<Person>) {
+  selectRandomPerson(people: Array<Person>): Person {
     return people[Math.round(Math.random() * people.length)];
   }
 
@@ -47,6 +53,9 @@ export default class App extends React.Component<{}, AppState> {
     return (
       <div className="main">
         <PersonContainer people={this.state.people} />
+        <h2 className="current-name">
+          {this.state.currentPerson}
+        </h2>
       </div>
     );
   }
