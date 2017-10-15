@@ -123,8 +123,17 @@ var App = /** @class */ (function (_super) {
         var _this = this;
         fetch("https://willowtreeapps.com/api/v1.0/profiles/")
             .then(function (peopleData) { return peopleData.json(); })
-            .then(function (peopleData) { return _this.setState({ people: peopleData }); })
+            .then(function (peopleData) { return _this.getRandomHeadshots(peopleData); })
+            .then(function (randomPeople) { return _this.setState({ people: randomPeople }); })
             .catch(function (error) { return console.log(error); });
+    };
+    App.prototype.getRandomHeadshots = function (people) {
+        var randomPeople = [];
+        while (randomPeople.length < 5) {
+            var randomNumber = Math.round(Math.random() * people.length);
+            randomPeople.push(people[Math.round(Math.random() * people.length)]);
+        }
+        return randomPeople;
     };
     App.prototype.render = function () {
         return React.createElement(PersonContainer_1.PersonContainer, { people: this.state.people.slice(0, 10) });
@@ -144,8 +153,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var Person_1 = __webpack_require__(5);
 exports.PersonContainer = function (props) {
-    console.log(props);
     var people = props.people;
+    console.log(people);
     return (React.createElement("div", { className: "person-container" }, people.map(function (person) {
         return React.createElement(Person_1.Person, { name: person.firstName, key: person.id, headshot: person.headshot.url });
     })));
@@ -163,7 +172,6 @@ var React = __webpack_require__(0);
 exports.Person = function (props) {
     var name = props.name;
     var headshot = props.headshot.slice(2, props.headshot.length);
-    console.log(headshot);
     return (React.createElement("div", { className: "person" },
         React.createElement("div", { className: "person-pic" }, "Here is my pic"),
         React.createElement("p", { className: "person-name" }, name),
