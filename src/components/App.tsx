@@ -36,6 +36,6 @@ export default class App extends React.Component<{}, AppState> {
   }
 
   render() {
-    return <PersonContainer people={this.state.people.slice(0, 10)} />;
+    return <PersonContainer people={this.state.people} />;
   }
 }
