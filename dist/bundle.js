@@ -128,15 +128,26 @@ var App = /** @class */ (function (_super) {
             .catch(function (error) { return console.log(error); });
     };
     App.prototype.getRandomHeadshots = function (people) {
+        people = people.filter(function (person) { return person.headshot.url !== undefined; });
         var randomPeople = [];
-        while (randomPeople.length < 5) {
-            var randomNumber = Math.round(Math.random() * people.length);
-            randomPeople.push(people[Math.round(Math.random() * people.length)]);
+        var _loop_1 = function (i) {
+            var randomPerson = this_1.selectRandomPerson(people);
+            if (randomPeople.filter(function (person) { return person.slug !== randomPerson.slug; })) {
+                randomPeople.push(randomPerson);
+            }
+        };
+        var this_1 = this;
+        for (var i = 0; randomPeople.length < 5; i++) {
+            _loop_1(i);
         }
         return randomPeople;
     };
+    App.prototype.selectRandomPerson = function (people) {
+        return people[Math.round(Math.random() * people.length)];
+    };
     App.prototype.render = function () {
-        return React.createElement(PersonContainer_1.PersonContainer, { people: this.state.people });
+        return (React.createElement("div", { className: "main" },
+            React.createElement(PersonContainer_1.PersonContainer, { people: this.state.people })));
     };
     return App;
 }(React.Component));
@@ -172,13 +183,14 @@ var styles = __webpack_require__(6);
 exports.Person = function (props) {
     var name = props.name;
     var headshot;
+    console.log("name", name);
+    console.log("headshot", props.headshot);
     props.headshot
         ? (headshot = props.headshot.slice(2, props.headshot.length))
         : (headshot = "no headshot");
     return (React.createElement("div", { className: "person" },
-        React.createElement("div", { className: "person-pic" }, "Here is my pic"),
-        React.createElement("p", { className: "person-name" }, name),
-        React.createElement("img", { className: "headshot", src: "http://" + headshot, alt: headshot })));
+        React.createElement("img", { className: "headshot", src: "http://" + headshot, alt: headshot }),
+        React.createElement("p", { className: "person-name" }, name)));
 };
 
 
@@ -217,7 +229,7 @@ exports = module.exports = __webpack_require__(8)();
 
 
 // module
-exports.push([module.i, ".headshot {\n  height: 200px;\n  width: 200px;\n}\n", ""]);
+exports.push([module.i, "body {\n  background-color: #e2dcde;\n}\n\n.headshot {\n  height: 200px;\n  width: 200px;\n}\n\n.person-container {\n  border: 3px solid black;\n  display: flex;\n  justify-content: space-between;\n}\n\n.person {\n  margin: 5px;\n  text-align: center;\n}\n", ""]);
 
 // exports
 

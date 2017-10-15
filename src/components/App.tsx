@@ -3,7 +3,7 @@ import { PersonContainer } from "./PersonContainer";
 import { Person } from "./PersonContainer";
 
 export interface AppState {
-  people: any;
+  people: Array<Person>;
 }
 
 export default class App extends React.Component<{}, AppState> {
@@ -27,15 +27,27 @@ export default class App extends React.Component<{}, AppState> {
   }
 
   getRandomHeadshots(people: Array<Person>) {
-    let randomPeople = [];
-    while (randomPeople.length < 5) {
-      let randomNumber = Math.round(Math.random() * people.length);
-      randomPeople.push(people[Math.round(Math.random() * people.length)]);
+    people = people.filter(person => person.headshot.url !== undefined);
+    let randomPeople: Array<Person> = [];
+
+    for (let i = 0; randomPeople.length < 5; i++) {
+      let randomPerson = this.selectRandomPerson(people);
+      if (randomPeople.filter(person => person.slug !== randomPerson.slug)) {
+        randomPeople.push(randomPerson);
+      }
     }
     return randomPeople;
   }
 
+  selectRandomPerson(people: Array<Person>) {
+    return people[Math.round(Math.random() * people.length)];
+  }
+
   render() {
-    return <PersonContainer people={this.state.people} />;
+    return (
+      <div className="main">
+        <PersonContainer people={this.state.people} />
+      </div>
+    );
   }
 }
