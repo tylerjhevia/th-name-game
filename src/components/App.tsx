@@ -5,6 +5,7 @@ import { Person } from "./PersonContainer";
 export interface AppState {
   people: Array<Person>;
   currentPerson: String;
+  feedback: String;
 }
 
 export default class App extends React.Component<{}, AppState> {
@@ -12,7 +13,8 @@ export default class App extends React.Component<{}, AppState> {
     super();
     this.state = {
       people: [],
-      currentPerson: null
+      currentPerson: null,
+      feedback: ""
     };
   }
 
@@ -41,6 +43,7 @@ export default class App extends React.Component<{}, AppState> {
         randomPeople.push(randomPerson);
       }
     }
+
     this.setState({
       currentPerson: this.selectRandomPerson(randomPeople).firstName
     });
@@ -52,13 +55,11 @@ export default class App extends React.Component<{}, AppState> {
   }
 
   checkAnswer(name: string): any {
-    console.log("name", name);
     if (name === this.state.currentPerson) {
-      alert("Winner!");
+      this.setState({ feedback: "Correct!" });
     } else {
-      alert("WRONG!");
+      this.setState({ feedback: "Try again!" });
     }
-    location.reload();
   }
 
   render() {
@@ -71,6 +72,17 @@ export default class App extends React.Component<{}, AppState> {
         <h2 className="current-name">
           {this.state.currentPerson}
         </h2>
+        <h2 className="feedback">
+          {this.state.feedback}
+        </h2>
+        {this.state.feedback === "Correct!"
+          ? <button
+              className="play-again-button"
+              onClick={() => location.reload()}
+            >
+              Play Again
+            </button>
+          : null}
       </div>
     );
   }

@@ -16,9 +16,6 @@ export const Person = (props: PersonProps) => {
   return (
     <div className="person" onClick={(e: any) => checkAnswer(name)}>
       <img className="headshot" src={`http://${headshot}`} alt={headshot} />
-      <p className="person-name">
-        {name}
-      </p>
     </div>
   );
 };

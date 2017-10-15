@@ -1,5 +1,8 @@
 module.exports = {
-  entry: "./src/index.tsx",
+  entry: {
+    main: "./src/index.tsx",
+    test: ["babel-polyfill", "mocha!./src/test/app.test.js"]
+  },
   output: {
     filename: "bundle.js",
     path: __dirname + "/dist"
@@ -17,6 +20,16 @@ module.exports = {
       { test: /\.scss$/, loader: "style!css!sass" }
     ],
     rules: [
+      {
+        test: /\.js$/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ["env"]
+          }
+        }
+      },
       { test: /\.tsx?$/, loader: "awesome-typescript-loader" },
 
       { enforce: "pre", test: /\.js$/, loader: "source-map-loader" }
