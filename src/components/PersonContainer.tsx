@@ -3,6 +3,7 @@ import { Person } from "./Person";
 
 export interface PersonContainerProps {
   people: Array<Person>;
+  checkAnswer: Function;
 }
 
 export interface Person {
@@ -27,7 +28,7 @@ export interface Headshot {
 }
 
 export const PersonContainer = (props: PersonContainerProps) => {
-  const { people } = props;
+  const { people, checkAnswer } = props;
   return (
     <div className="person-container">
       {people.map(person =>
@@ -35,6 +36,7 @@ export const PersonContainer = (props: PersonContainerProps) => {
           name={person.firstName}
           key={person.id}
           headshot={person.headshot.url}
+          checkAnswer={checkAnswer}
         />
       )}
     </div>

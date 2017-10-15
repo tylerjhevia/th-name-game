@@ -133,7 +133,8 @@ var App = /** @class */ (function (_super) {
         var randomPeople = [];
         var _loop_1 = function (i) {
             var randomPerson = this_1.selectRandomPerson(people);
-            if (randomPeople.filter(function (person) { return person.slug !== randomPerson.slug; })) {
+            var duplicate = randomPeople.filter(function (person) { return person.slug === randomPerson.slug; });
+            if (duplicate.length === 0 && randomPerson.slug) {
                 randomPeople.push(randomPerson);
             }
         };
@@ -141,18 +142,27 @@ var App = /** @class */ (function (_super) {
         for (var i = 0; randomPeople.length < 5; i++) {
             _loop_1(i);
         }
-        console.log("randomPeople", randomPeople);
         this.setState({
             currentPerson: this.selectRandomPerson(randomPeople).firstName
         });
         return randomPeople;
     };
     App.prototype.selectRandomPerson = function (people) {
-        return people[Math.round(Math.random() * people.length)];
+        return people[Math.round(Math.random() * people.length - 1)];
+    };
+    App.prototype.checkAnswer = function (name) {
+        console.log("name", name);
+        if (name === this.state.currentPerson) {
+            alert("Winner!");
+        }
+        else {
+            alert("WRONG!");
+        }
+        location.reload();
     };
     App.prototype.render = function () {
         return (React.createElement("div", { className: "main" },
-            React.createElement(PersonContainer_1.PersonContainer, { people: this.state.people }),
+            React.createElement(PersonContainer_1.PersonContainer, { people: this.state.people, checkAnswer: this.checkAnswer.bind(this) }),
             React.createElement("h2", { className: "current-name" }, this.state.currentPerson)));
     };
     return App;
@@ -170,9 +180,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var Person_1 = __webpack_require__(5);
 exports.PersonContainer = function (props) {
-    var people = props.people;
+    var people = props.people, checkAnswer = props.checkAnswer;
     return (React.createElement("div", { className: "person-container" }, people.map(function (person) {
-        return React.createElement(Person_1.Person, { name: person.firstName, key: person.id, headshot: person.headshot.url });
+        return React.createElement(Person_1.Person, { name: person.firstName, key: person.id, headshot: person.headshot.url, checkAnswer: checkAnswer });
     })));
 };
 
@@ -187,12 +197,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var styles = __webpack_require__(6);
 exports.Person = function (props) {
-    var name = props.name;
+    var name = props.name, checkAnswer = props.checkAnswer;
     var headshot;
     props.headshot
         ? (headshot = props.headshot.slice(2, props.headshot.length))
         : (headshot = "no headshot");
-    return (React.createElement("div", { className: "person" },
+    return (React.createElement("div", { className: "person", onClick: function (e) { return checkAnswer(name); } },
         React.createElement("img", { className: "headshot", src: "http://" + headshot, alt: headshot }),
         React.createElement("p", { className: "person-name" }, name)));
 };

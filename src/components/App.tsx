@@ -34,11 +34,13 @@ export default class App extends React.Component<{}, AppState> {
 
     for (let i = 0; randomPeople.length < 5; i++) {
       let randomPerson = this.selectRandomPerson(people);
-      if (randomPeople.filter(person => person.slug !== randomPerson.slug)) {
+      let duplicate = randomPeople.filter(
+        person => person.slug === randomPerson.slug
+      );
+      if (duplicate.length === 0 && randomPerson.slug) {
         randomPeople.push(randomPerson);
       }
     }
-    console.log("randomPeople", randomPeople);
     this.setState({
       currentPerson: this.selectRandomPerson(randomPeople).firstName
     });
@@ -46,13 +48,26 @@ export default class App extends React.Component<{}, AppState> {
   }
 
   selectRandomPerson(people: Array<Person>): Person {
-    return people[Math.round(Math.random() * people.length)];
+    return people[Math.round(Math.random() * people.length - 1)];
+  }
+
+  checkAnswer(name: string): any {
+    console.log("name", name);
+    if (name === this.state.currentPerson) {
+      alert("Winner!");
+    } else {
+      alert("WRONG!");
+    }
+    location.reload();
   }
 
   render() {
     return (
       <div className="main">
-        <PersonContainer people={this.state.people} />
+        <PersonContainer
+          people={this.state.people}
+          checkAnswer={this.checkAnswer.bind(this)}
+        />
         <h2 className="current-name">
           {this.state.currentPerson}
         </h2>
