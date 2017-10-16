@@ -1,6 +1,6 @@
-import * as React from "react";
-import { PersonContainer } from "./PersonContainer";
-import { PersonInfo } from "./PersonContainer";
+import * as React from 'react';
+import { PersonContainer } from './PersonContainer';
+import { PersonInfo } from './PersonContainer';
 
 export interface AppState {
   people: Array<PersonInfo>;
@@ -13,8 +13,8 @@ export default class App extends React.Component<{}, AppState> {
     super();
     this.state = {
       people: [],
-      currentPerson: "",
-      feedback: ""
+      currentPerson: '',
+      feedback: ''
     };
   }
 
@@ -23,27 +23,21 @@ export default class App extends React.Component<{}, AppState> {
   }
 
   fetchPeople() {
-    fetch("https://willowtreeapps.com/api/v1.0/profiles/")
+    fetch('https://willowtreeapps.com/api/v1.0/profiles/')
       .then(peopleData => peopleData.json())
       .then(peopleData => this.getRandomHeadshots(peopleData))
       .then(randomPeople => this.setState({ people: randomPeople }))
       .catch(error => error);
   }
 
+  getFiveRandom(people: Array<PersonInfo>): Array<PersonInfo> {
+    let randomRange = Math.round(Math.random() * people.length - 6);
+    return people.slice(randomRange, randomRange + 5);
+  }
+
   getRandomHeadshots(people: Array<PersonInfo>): Array<PersonInfo> {
     people = people.filter(person => person.headshot.url !== undefined);
-    let randomPeople: Array<PersonInfo> = [];
-
-    for (let i = 0; randomPeople.length < 5; i++) {
-      let randomPerson = this.selectRandomPerson(people);
-      let duplicate = randomPeople.filter(
-        person => person.slug === randomPerson.slug
-      );
-      if (duplicate.length === 0 && randomPerson.slug) {
-        randomPeople.push(randomPerson);
-      }
-    }
-
+    let randomPeople = this.getFiveRandom(people);
     this.setState({
       currentPerson: this.selectRandomPerson(randomPeople).firstName
     });
@@ -55,11 +49,9 @@ export default class App extends React.Component<{}, AppState> {
   }
 
   checkAnswer(name: string): any {
-    if (name === this.state.currentPerson) {
-      this.setState({ feedback: "Correct!" });
-    } else {
-      this.setState({ feedback: "Try again!" });
-    }
+    return name === this.state.currentPerson
+      ? this.setState({ feedback: 'Correct!' })
+      : this.setState({ feedback: 'Try again!' });
   }
 
   render() {
@@ -75,7 +67,7 @@ export default class App extends React.Component<{}, AppState> {
         <h2 className="feedback">
           {this.state.feedback}
         </h2>
-        {this.state.feedback === "Correct!"
+        {this.state.feedback === 'Correct!'
           ? <button
               className="play-again-button"
               onClick={() => location.reload()}
