@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { Person } from './Person';
+import { Person } from '../Components/Person';
 import * as Enzyme from 'enzyme';
 import * as Adapter from 'enzyme-adapter-react-16';
 import { mount } from 'enzyme';
-import { mockPerson } from './MockData';
+import { mockPerson } from '../test-helpers/MockData';
 
 Enzyme.configure({ adapter: new Adapter() });
 

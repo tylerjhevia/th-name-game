@@ -1,11 +1,11 @@
 import * as React from 'react';
 // import * as ReactDOM from 'react-dom';
-import { PersonContainer } from './PersonContainer';
-import { Person } from './Person';
+import { PersonContainer } from '../Components/PersonContainer';
+import { Person } from '../Components/Person';
 import * as Enzyme from 'enzyme';
 import * as Adapter from 'enzyme-adapter-react-16';
 import { mount } from 'enzyme';
-import { mockPeople } from './MockData';
+import { mockPeople } from '../test-helpers/MockData';
 
 Enzyme.configure({ adapter: new Adapter() });
 
