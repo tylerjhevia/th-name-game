@@ -4,8 +4,7 @@ import App from './App';
 import { PersonContainer } from './PersonContainer';
 import * as Enzyme from 'enzyme';
 import * as Adapter from 'enzyme-adapter-react-16';
-import { shallow, mount } from 'enzyme';
-import { mockAppState } from './MockData.ts';
+import { shallow } from 'enzyme';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -27,6 +26,7 @@ describe('App component', () => {
     expect(wrapper.state().currentPerson).toEqual('');
     expect(wrapper.state().feedback).toEqual('');
     expect(wrapper.state().reverseMode).toEqual(false);
+    expect(wrapper.state().score).toEqual(0);
   });
 
   it("should render a div element with a class of 'main'", () => {
@@ -75,5 +75,13 @@ describe('App component', () => {
     wrapper.setState({ feedback: 'Correct!' });
 
     expect(wrapper.find('button.play-again-button').length).toEqual(1);
+  });
+
+  it('should render a p element with a class of "score"', () => {
+    expect(wrapper.find('p.score').length).toEqual(1);
+  });
+
+  it('should render a button element with a class of "reset-button"', () => {
+    expect(wrapper.find('button.reset-button').length).toEqual(1);
   });
 });
