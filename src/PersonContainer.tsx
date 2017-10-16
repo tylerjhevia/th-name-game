@@ -1,5 +1,5 @@
-import * as React from "react";
-import { Person } from "./Person";
+import * as React from 'react';
+import { Person } from './Person';
 
 export interface PersonContainerProps {
   people: Array<PersonInfo>;
