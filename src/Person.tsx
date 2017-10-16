@@ -15,7 +15,7 @@ export const Person = (props: PersonProps) => {
     <div className="person" onClick={(e: any) => checkAnswer(name, headshot)}>
       {reverseMode === false
         ? <img className="headshot" src={`http:${headshot}`} alt={headshot} />
-        : <h2>
+        : <h2 className="person-name">
             {name}
           </h2>}
     </div>
