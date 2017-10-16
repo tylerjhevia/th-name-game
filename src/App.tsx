@@ -64,9 +64,9 @@ export default class App extends React.Component<{}, AppState> {
   }
 
   selectRandomPerson(people: Array<PersonInfo>): PersonInfo | void {
-    const person = people[Math.round(Math.random() * people.length - 1)];
+    const person = people[Math.round(Math.random() * (people.length - 1))];
     if (person === undefined) {
-      location.reload();
+      return this.restartGame();
     }
     if (this.state.reverseMode === false) {
       this.setState({ currentPerson: person.firstName });
