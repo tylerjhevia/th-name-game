@@ -49,8 +49,10 @@ export default class App extends React.Component<{}, AppState> {
   getRandomHeadshots(people: Array<PersonInfo>): Array<PersonInfo> {
     people = people.filter(
       person =>
-        person.headshot.url !== undefined && person.firstName !== undefined
+        person.headshot.url !== undefined &&
+        !person.headshot.url.includes('TEST')
     );
+    console.log('people', people);
     let randomPeople = this.getFiveRandom(people);
     this.selectRandomPerson(randomPeople);
     return randomPeople;
@@ -61,16 +63,15 @@ export default class App extends React.Component<{}, AppState> {
     return people.slice(randomRange, randomRange + 5);
   }
 
-  selectRandomPerson(people: Array<PersonInfo>): PersonInfo {
+  selectRandomPerson(people: Array<PersonInfo>): PersonInfo | void {
     const person = people[Math.round(Math.random() * people.length - 1)];
     if (person === undefined) {
       location.reload();
     }
-    if (this.state.reverseMode === true) {
-      console.log('in here');
-      this.setState({ currentPerson: person.headshot.url });
-    } else {
+    if (this.state.reverseMode === false) {
       this.setState({ currentPerson: person.firstName });
+    } else {
+      this.setState({ currentPerson: person.headshot.url });
     }
     return person;
   }
@@ -82,7 +83,7 @@ export default class App extends React.Component<{}, AppState> {
       : this.setState({ feedback: 'Try again!' });
   }
 
-  restartGame() {
+  restartGame(): void {
     const newSelection = this.getRandomHeadshots(this.state.fetchedPeople);
     this.selectRandomPerson(newSelection);
     return this.setState({
@@ -92,8 +93,9 @@ export default class App extends React.Component<{}, AppState> {
   }
 
   changeMode() {
-    this.setState({ reverseMode: !this.state.reverseMode });
-    this.restartGame();
+    this.setState({ reverseMode: !this.state.reverseMode }, () =>
+      this.restartGame()
+    );
   }
 
   render() {
@@ -122,12 +124,7 @@ export default class App extends React.Component<{}, AppState> {
               Play Again
             </button>
           : null}
-        <button
-          className="reverse-button"
-          onClick={() => {
-            return this.changeMode();
-          }}
-        >
+        <button className="reverse-button" onClick={() => this.changeMode()}>
           Change Mode
         </button>
       </div>

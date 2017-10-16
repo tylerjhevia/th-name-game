@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+// import * as ReactDOM from 'react-dom';
 import { PersonContainer } from './PersonContainer';
 import { Person } from './Person';
 import * as Enzyme from 'enzyme';
@@ -132,7 +132,7 @@ describe('PersonContainer Component', () => {
   });
 
   it('should pass the correct four props to Person components', () => {
-    const personProps: Array<string> = Object.keys(
+    const personProps: Array<String> = Object.keys(
       wrapper.children().props().children[0].props
     );
 
