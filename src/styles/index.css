@@ -1,5 +1,141 @@
 body {
+  align-items: center;
+  background-color: #2d2d34;
+  display: flex;
+  flex-direction: column;
+  font-family: sans-serif;
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+}
+
+header {
+  color: white;
+  font-size: 36px;
+  text-align: center;
+}
+
+.root {
+  height: 100%;
+  width: 100vw;
+}
+
+.main {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.game-container {
+  background-color: #e2dcde;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  width: 90%;
+}
+
+.headshot {
+  height: 200px;
+  width: 200px;
+}
+
+.person {
+  margin: 5px;
+  opacity: .8;
+  text-align: center;
+}
+
+.person-name {
+  width: 200px;
+}
+
+.person:hover {
+  box-shadow: 1px 1px 1px 1px black;
+  cursor: pointer;
+  opacity: 1;
+}
+
+.current-name {
+  color: white;
+  font-size: 36px;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.feedback {
+  color: white;
+  text-align: center;
+  transition: all .2s ease-in;
+}
+
+button {
+  font-size: 20px;
+  height: 50px;
+  transition: all .2s ease-in-out;
+  width: 200px;
+}
+
+button:hover {
+  cursor: pointer;
+  transform: scale(1.3);
+}
+
+.current-photo {
+  height: 300px;
+  margin-top: 10px;
+  width: 300px;
+}
+
+.controls {
+  align-items: center;
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.score {
+  color: white;
+  font-size: 20px;
+}
+
+.error-text {
+  color: white;
+  text-align: center;
+}
+
+.error {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+@media (max-width: 710px) {
+  .headshot {
+    height: 150px;
+    width: 150px;
+  }
+
+  .person-name {
+    width: 150px;
+  }
+}
+
+@media (max-width: 550px) {
+  button {
+    font-size: 12px;
+    height: 30px;
+    width: 100px;
+  }
+  headshot {
+    height: 200px;
+    width: 200px;
+  }
+
+  .person-name {
+    width: 100px;
+  }
 }

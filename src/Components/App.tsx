@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { PersonContainer } from './PersonContainer';
-import { PersonInfo } from './PersonContainer';
+import { Game } from './Game';
+import { PersonInfo } from './Game';
 import { Error } from './Error';
 
 export interface AppState {
@@ -66,8 +66,9 @@ export default class App extends React.Component<{}, AppState> {
 
   selectRandomPerson(people: Array<PersonInfo>): PersonInfo | void {
     const person = people[Math.round(Math.random() * (people.length - 1))];
+
     if (!person) {
-      return this.restartGame();
+      return location.reload();
     }
 
     if (this.state.reverseMode === false) {
@@ -120,7 +121,7 @@ export default class App extends React.Component<{}, AppState> {
 
     return (
       <div className="main">
-        <PersonContainer
+        <Game
           people={selectedPeople}
           checkAnswer={this.checkAnswer.bind(this)}
           reverseMode={reverseMode}
@@ -130,7 +131,7 @@ export default class App extends React.Component<{}, AppState> {
           ? <h2 className="current-name">
               {currentPerson}
             </h2>
-          : <img src={`http:${currentPerson}`} />}
+          : <img className="current-photo" src={`http:${currentPerson}`} />}
 
         <h2 className="feedback">
           {feedback}
@@ -144,20 +145,21 @@ export default class App extends React.Component<{}, AppState> {
               Play Again
             </button>
           : null}
+        <div className="controls">
+          <button className="reverse-button" onClick={() => this.changeMode()}>
+            Change Mode
+          </button>
 
-        <button className="reverse-button" onClick={() => this.changeMode()}>
-          Change Mode
-        </button>
-
-        <p className="score">
-          Score: {score}
-        </p>
-        <button
-          className="reset-button"
-          onClick={() => this.setState({ score: 0 })}
-        >
-          Reset Score
-        </button>
+          <p className="score">
+            Score: {score}
+          </p>
+          <button
+            className="reset-button"
+            onClick={() => this.setState({ score: 0 })}
+          >
+            Reset Score
+          </button>
+        </div>
       </div>
     );
   }

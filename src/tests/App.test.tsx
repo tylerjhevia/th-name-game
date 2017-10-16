@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import App from '../Components/App';
 import { Error } from '../Components/Error';
-import { PersonContainer } from '../Components/PersonContainer';
+import { Game } from '../Components/Game';
 import * as Enzyme from 'enzyme';
 import * as Adapter from 'enzyme-adapter-react-16';
 import { shallow } from 'enzyme';
@@ -35,16 +35,16 @@ describe('App component', () => {
     expect(wrapper.find('div.main').length).toEqual(1);
   });
 
-  it('should render a PersonContainer component', () => {
-    expect(wrapper.find(PersonContainer).length).toEqual(1);
+  it('should render a Game component', () => {
+    expect(wrapper.find(Game).length).toEqual(1);
   });
 
-  it('should pass the correct props to PersonContainer component', () => {
-    const personContainer = wrapper.find(PersonContainer);
+  it('should pass the correct props to Game component', () => {
+    const game = wrapper.find(Game);
 
-    expect(personContainer.props().people).toEqual([]);
-    expect(personContainer.props().checkAnswer).toBeInstanceOf(Function);
-    expect(personContainer.props().reverseMode).toEqual(false);
+    expect(game.props().people).toEqual([]);
+    expect(game.props().checkAnswer).toBeInstanceOf(Function);
+    expect(game.props().reverseMode).toEqual(false);
   });
 
   it('should render an h2 elements with a class of feedback', () => {
