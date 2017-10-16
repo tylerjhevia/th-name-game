@@ -1,6 +1,5 @@
 import * as React from 'react';
-// import * as ReactDOM from 'react-dom';
-import { PersonContainer } from '../Components/PersonContainer';
+import { Game } from '../Components/Game';
 import { Person } from '../Components/Person';
 import * as Enzyme from 'enzyme';
 import * as Adapter from 'enzyme-adapter-react-16';
@@ -11,13 +10,9 @@ Enzyme.configure({ adapter: new Adapter() });
 
 const mockFn = jest.fn();
 
-describe('PersonContainer Component', () => {
+describe('Game Component', () => {
   const wrapper = mount(
-    <PersonContainer
-      reverseMode={false}
-      checkAnswer={mockFn}
-      people={mockPeople}
-    />
+    <Game reverseMode={false} checkAnswer={mockFn} people={mockPeople} />
   );
   it('should receive the correct props', () => {
     expect(wrapper.props().reverseMode).toEqual(false);

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Person } from './Person';
 
-export interface PersonContainerProps {
+export interface GameProps {
   people: Array<PersonInfo>;
   checkAnswer: Function;
   reverseMode: Boolean;
@@ -28,10 +28,10 @@ export interface Headshot {
   width: number;
 }
 
-export const PersonContainer = (props: PersonContainerProps) => {
+export const Game = (props: GameProps) => {
   const { people, checkAnswer, reverseMode } = props;
   return (
-    <div className="person-container">
+    <div className="game-container">
       {people.map(person =>
         <Person
           reverseMode={reverseMode}
