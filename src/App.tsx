@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { PersonContainer } from './PersonContainer';
 import { PersonInfo } from './PersonContainer';
+import { Error } from './Error';
 
 export interface AppState {
   selectedPeople: Array<PersonInfo>;
@@ -43,7 +44,7 @@ export default class App extends React.Component<{}, AppState> {
         return this.getRandomHeadshots(peopleData);
       })
       .then(randomPeople => this.setState({ selectedPeople: randomPeople }))
-      .catch(error => error);
+      .catch(error => <Error />);
   }
 
   getRandomHeadshots(people: Array<PersonInfo>): Array<PersonInfo> {
@@ -52,7 +53,6 @@ export default class App extends React.Component<{}, AppState> {
         person.headshot.url !== undefined &&
         !person.headshot.url.includes('TEST')
     );
-    console.log('people', people);
     let randomPeople = this.getFiveRandom(people);
     this.selectRandomPerson(randomPeople);
     return randomPeople;
@@ -64,9 +64,9 @@ export default class App extends React.Component<{}, AppState> {
   }
 
   selectRandomPerson(people: Array<PersonInfo>): PersonInfo | void {
-    const person = people[Math.round(Math.random() * people.length - 1)];
+    const person = people[Math.round(Math.random() * (people.length - 1))];
     if (person === undefined) {
-      location.reload();
+      return this.restartGame();
     }
     if (this.state.reverseMode === false) {
       this.setState({ currentPerson: person.firstName });
