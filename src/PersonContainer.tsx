@@ -4,6 +4,7 @@ import { Person } from './Person';
 export interface PersonContainerProps {
   people: Array<PersonInfo>;
   checkAnswer: Function;
+  reverseMode: Boolean;
 }
 
 export interface PersonInfo {
@@ -28,11 +29,12 @@ export interface Headshot {
 }
 
 export const PersonContainer = (props: PersonContainerProps) => {
-  const { people, checkAnswer } = props;
+  const { people, checkAnswer, reverseMode } = props;
   return (
     <div className="person-container">
       {people.map(person =>
         <Person
+          reverseMode={reverseMode}
           name={person.firstName}
           key={person.id}
           headshot={person.headshot.url}
