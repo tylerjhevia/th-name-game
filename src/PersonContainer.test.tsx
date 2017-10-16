@@ -36,24 +36,18 @@ describe('PersonContainer Component', () => {
 
     expect(personProps.length).toEqual(4);
 
-    // expect(personProps.includes('reverseMode')).toEqual(true);
-    // expect(personProps.includes('headshot')).toEqual(true);
-    // expect(personProps.includes('name')).toEqual(true);
-    // expect(personProps.includes('checkAnswer')).toEqual(true);
+    expect(personProps[0]).toEqual('reverseMode');
+    expect(personProps[1]).toEqual('name');
+    expect(personProps[2]).toEqual('headshot');
+    expect(personProps[3]).toEqual('checkAnswer');
   });
 
   it('should pass props with the correct values to Person components', () => {
-    expect(wrapper.children().props().children[0].props.reverseMode).toEqual(
-      false
-    );
-    expect(wrapper.children().props().children[0].props.name).toEqual(
-      mockPeople[0].firstName
-    );
-    expect(wrapper.children().props().children[0].props.headshot).toEqual(
-      mockPeople[0].headshot.url
-    );
-    expect(wrapper.children().props().children[0].props.checkAnswer).toEqual(
-      mockFn
-    );
+    const personProps = wrapper.children().props().children[0].props;
+
+    expect(personProps.reverseMode).toEqual(false);
+    expect(personProps.name).toEqual(mockPeople[0].firstName);
+    expect(personProps.headshot.url);
+    expect(personProps.checkAnswer).toEqual(mockFn);
   });
 });

@@ -121,3 +121,11 @@ export const mockPerson = {
   },
   socialLinks: []
 };
+
+export const mockAppState = {
+  selectedPeople: mockPeople,
+  currentPerson: mockPeople[0].firstName,
+  feedback: '',
+  fetchedPeople: mockPeople,
+  reverseMode: false
+};
