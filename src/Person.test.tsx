@@ -7,9 +7,8 @@ import { mockPerson } from './MockData';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-const mockFn = jest.fn();
-
 describe('Person component', () => {
+  const mockFn = jest.fn();
   const wrapper = mount(
     <Person
       name={mockPerson.firstName}
