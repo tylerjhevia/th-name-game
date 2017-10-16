@@ -9,6 +9,7 @@ export interface AppState {
   feedback: String;
   fetchedPeople: Array<PersonInfo>;
   reverseMode: Boolean;
+  score: any;
 }
 
 export interface EmptyPerson {
@@ -28,7 +29,8 @@ export default class App extends React.Component<{}, AppState> {
       currentPerson: '',
       feedback: '',
       fetchedPeople: [],
-      reverseMode: false
+      reverseMode: false,
+      score: 0
     };
   }
 
@@ -48,12 +50,12 @@ export default class App extends React.Component<{}, AppState> {
   }
 
   getRandomHeadshots(people: Array<PersonInfo>): Array<PersonInfo> {
-    people = people.filter(
+    let filteredPeople = people.filter(
       person =>
         person.headshot.url !== undefined &&
         !person.headshot.url.includes('TEST')
     );
-    let randomPeople = this.getFiveRandom(people);
+    let randomPeople = this.getFiveRandom(filteredPeople);
     this.selectRandomPerson(randomPeople);
     return randomPeople;
   }
@@ -65,22 +67,28 @@ export default class App extends React.Component<{}, AppState> {
 
   selectRandomPerson(people: Array<PersonInfo>): PersonInfo | void {
     const person = people[Math.round(Math.random() * (people.length - 1))];
-    if (person === undefined) {
+    if (!person) {
       return this.restartGame();
     }
+
     if (this.state.reverseMode === false) {
       this.setState({ currentPerson: person.firstName });
     } else {
       this.setState({ currentPerson: person.headshot.url });
     }
+
     return person;
   }
 
   checkAnswer(name: string, headshot: string): void {
-    return name === this.state.currentPerson ||
-    headshot === this.state.currentPerson
-      ? this.setState({ feedback: 'Correct!' })
-      : this.setState({ feedback: 'Try again!' });
+    if (
+      name === this.state.currentPerson ||
+      headshot === this.state.currentPerson
+    ) {
+      this.setState({ feedback: 'Correct!', score: this.state.score + 1 });
+    } else {
+      this.setState({ feedback: 'Try again!', score: this.state.score - 1 });
+    }
   }
 
   restartGame(): void {
@@ -127,6 +135,9 @@ export default class App extends React.Component<{}, AppState> {
         <button className="reverse-button" onClick={() => this.changeMode()}>
           Change Mode
         </button>
+        <p className="score">
+          Score: {this.state.score}
+        </p>
       </div>
     );
   }
