@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './Person.css';
+import '../styles/Person.css';
 
 export interface PersonProps {
   name: string;

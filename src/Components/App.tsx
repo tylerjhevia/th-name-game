@@ -16,11 +16,6 @@ export interface EmptyPerson {
   firstName: String;
 }
 
-export interface PeopleResponse {
-  length: Number;
-  people: Array<PersonInfo>;
-}
-
 export default class App extends React.Component<{}, AppState> {
   constructor() {
     super();
@@ -36,9 +31,6 @@ export default class App extends React.Component<{}, AppState> {
 
   componentDidMount() {
     this.fetchPeople();
-
-    let score: any = localStorage.getItem('score');
-    return this.setState({ score: parseInt(score) });
   }
 
   fetchPeople() {
@@ -53,14 +45,18 @@ export default class App extends React.Component<{}, AppState> {
   }
 
   getRandomHeadshots(people: Array<PersonInfo>): Array<PersonInfo> {
-    let filteredPeople = people.filter(
-      person =>
-        person.headshot.url !== undefined &&
-        !person.headshot.url.includes('TEST')
-    );
+    let filteredPeople = this.filterPeople(people);
     let randomPeople = this.getFiveRandom(filteredPeople);
     this.selectRandomPerson(randomPeople);
     return randomPeople;
+  }
+
+  filterPeople(people: Array<PersonInfo>) {
+    return people.filter(
+      (person: PersonInfo) =>
+        person.headshot.url !== undefined &&
+        !person.headshot.url.includes('TEST')
+    );
   }
 
   getFiveRandom(people: Array<PersonInfo>): Array<PersonInfo> {
@@ -92,8 +88,6 @@ export default class App extends React.Component<{}, AppState> {
     } else {
       this.setState({ feedback: 'Try again!', score: this.state.score - 1 });
     }
-
-    localStorage.setItem('score', this.state.score);
   }
 
   restartGame(): void {
@@ -115,25 +109,34 @@ export default class App extends React.Component<{}, AppState> {
     if (!this.state.currentPerson) {
       return <Error />;
     }
+
+    const {
+      selectedPeople,
+      currentPerson,
+      feedback,
+      score,
+      reverseMode
+    } = this.state;
+
     return (
       <div className="main">
         <PersonContainer
-          people={this.state.selectedPeople}
+          people={selectedPeople}
           checkAnswer={this.checkAnswer.bind(this)}
-          reverseMode={this.state.reverseMode}
+          reverseMode={reverseMode}
         />
 
         {this.state.reverseMode === false
           ? <h2 className="current-name">
-              {this.state.currentPerson}
+              {currentPerson}
             </h2>
-          : <img src={`http:${this.state.currentPerson}`} />}
+          : <img src={`http:${currentPerson}`} />}
 
         <h2 className="feedback">
-          {this.state.feedback}
+          {feedback}
         </h2>
 
-        {this.state.feedback === 'Correct!'
+        {feedback === 'Correct!'
           ? <button
               className="play-again-button"
               onClick={() => this.restartGame()}
@@ -147,7 +150,7 @@ export default class App extends React.Component<{}, AppState> {
         </button>
 
         <p className="score">
-          Score: {this.state.score}
+          Score: {score}
         </p>
         <button
           className="reset-button"

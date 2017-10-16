@@ -1,7 +1,8 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import App from './App';
-import { PersonContainer } from './PersonContainer';
+import App from '../Components/App';
+import { Error } from '../Components/Error';
+import { PersonContainer } from '../Components/PersonContainer';
 import * as Enzyme from 'enzyme';
 import * as Adapter from 'enzyme-adapter-react-16';
 import { shallow } from 'enzyme';
@@ -18,12 +19,13 @@ describe('App component', () => {
 
   beforeEach(() => {
     wrapper = shallow(<App />);
+    wrapper.setState({ currentPerson: 'Tyler' });
   });
 
   it('should have the correct state properties with the correct default values', () => {
     expect(wrapper.state().selectedPeople).toEqual([]);
     expect(wrapper.state().fetchedPeople).toEqual([]);
-    expect(wrapper.state().currentPerson).toEqual('');
+    expect(wrapper.state().currentPerson).toEqual('Tyler');
     expect(wrapper.state().feedback).toEqual('');
     expect(wrapper.state().reverseMode).toEqual(false);
     expect(wrapper.state().score).toEqual(0);
@@ -83,5 +85,13 @@ describe('App component', () => {
 
   it('should render a button element with a class of "reset-button"', () => {
     expect(wrapper.find('button.reset-button').length).toEqual(1);
+  });
+
+  it('should render an Error component if state.person is an empty string', () => {
+    expect(wrapper.find(Error).length).toEqual(0);
+
+    wrapper.setState({ currentPerson: '' });
+
+    expect(wrapper.find(Error).length).toEqual(1);
   });
 });
