@@ -76,4 +76,12 @@ describe('App component', () => {
 
     expect(wrapper.find('button.play-again-button').length).toEqual(1);
   });
+
+  it('should render a p element with a class of "score"', () => {
+    expect(wrapper.find('p.score').length).toEqual(1);
+  });
+
+  it('should render a button element with a class of "reset-button"', () => {
+    expect(wrapper.find('button.reset-button').length).toEqual(1);
+  });
 });

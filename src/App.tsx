@@ -36,6 +36,9 @@ export default class App extends React.Component<{}, AppState> {
 
   componentDidMount() {
     this.fetchPeople();
+
+    let score: any = localStorage.getItem('score');
+    return this.setState({ score: parseInt(score) });
   }
 
   fetchPeople() {
@@ -89,6 +92,8 @@ export default class App extends React.Component<{}, AppState> {
     } else {
       this.setState({ feedback: 'Try again!', score: this.state.score - 1 });
     }
+
+    localStorage.setItem('score', this.state.score);
   }
 
   restartGame(): void {
@@ -107,6 +112,9 @@ export default class App extends React.Component<{}, AppState> {
   }
 
   render() {
+    if (!this.state.currentPerson) {
+      return <Error />;
+    }
     return (
       <div className="main">
         <PersonContainer
@@ -124,6 +132,7 @@ export default class App extends React.Component<{}, AppState> {
         <h2 className="feedback">
           {this.state.feedback}
         </h2>
+
         {this.state.feedback === 'Correct!'
           ? <button
               className="play-again-button"
@@ -132,12 +141,20 @@ export default class App extends React.Component<{}, AppState> {
               Play Again
             </button>
           : null}
+
         <button className="reverse-button" onClick={() => this.changeMode()}>
           Change Mode
         </button>
+
         <p className="score">
           Score: {this.state.score}
         </p>
+        <button
+          className="reset-button"
+          onClick={() => this.setState({ score: 0 })}
+        >
+          Reset Score
+        </button>
       </div>
     );
   }
